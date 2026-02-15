@@ -1,0 +1,107 @@
+========================================================================
+PANDUAN INSTALASI ROBOT OTOMASI DATIN (AMAN UNTUK PC SEISCOMP)
+Project: Otomasi-Datin-UPT-StageofAsel
+Oleh: Rakhmat Ramdhanu
+========================================================================
+
+PERINGATAN KERAS:
+1. JANGAN PERNAH menjalankan "sudo pip install" (Bisa merusak SeisComP).
+2. JANGAN PERNAH menjalankan "sudo apt upgrade" (Bisa merubah versi Python OS).
+3. Selalu gunakan Virtual Environment (env) seperti panduan di bawah ini.
+
+------------------------------------------------------------------------
+LANGKAH 1: PERSIAPAN SISTEM (TERMINAL UBUNTU)
+------------------------------------------------------------------------
+Buka Terminal (Ctrl+Alt+T), lalu jalankan perintah ini satu per satu:
+
+1. Update daftar paket (Hanya update list, bukan upgrade OS):
+   $ sudo apt update
+
+2. Install Git dan Modul Virtual Environment:
+   $ sudo apt install git python3-venv -y
+
+------------------------------------------------------------------------
+LANGKAH 2: AMBIL CODINGAN DARI GITHUB
+------------------------------------------------------------------------
+1. Pindah ke folder Home:
+   $ cd ~
+
+2. Clone Repository (Download codingan):
+   $ git clone https://github.com/RakhmatRamdhanu/Otomasi-Datin-UPT-StageofAsel.git
+
+3. Masuk ke dalam foldernya:
+   $ cd Otomasi-Datin-UPT-StageofAsel
+
+------------------------------------------------------------------------
+LANGKAH 3: MEMBUAT KAMAR KHUSUS (ISOLASI)
+------------------------------------------------------------------------
+Ini langkah paling penting agar SeisComP aman. Kita buat folder 'env'.
+
+1. Buat Virtual Environment:
+   $ python3 -m venv env
+
+2. Aktifkan Environment (Perhatikan tanda (env) di terminal setelah ini):
+   $ source env/bin/activate
+
+   (Pastikan prompt terminal berubah jadi ada tulisan "(env)" di depannya)
+
+------------------------------------------------------------------------
+LANGKAH 4: INSTALL LIBRARY PYTHON
+------------------------------------------------------------------------
+Pastikan posisi masih di dalam mode (env).
+
+1. Update pip (opsional):
+   (env) $ pip install --upgrade pip
+
+2. Install Library yang dibutuhkan (SocketIO, Pandas, Excel):
+   (env) $ pip install "python-socketio[client]" websocket-client pandas openpyxl requests
+
+------------------------------------------------------------------------
+LANGKAH 5: MENJALANKAN ROBOT (TESTING)
+------------------------------------------------------------------------
+Coba jalankan sebentar untuk memastikan koneksi berhasil.
+
+1. Jalankan script collector:
+   (env) $ python3 collector.py
+
+   -> Jika muncul: ">>> TERHUBUNG KE http://172.19.2.185:1880", berarti SUKSES.
+   -> Tekan Ctrl+C untuk mematikan (Stop).
+
+------------------------------------------------------------------------
+LANGKAH 6: MENJALANKAN 24 JAM (BACKGROUND SERVICE)
+------------------------------------------------------------------------
+Agar script tetap jalan walaupun terminal ditutup/logout.
+
+1. Jalankan perintah 'nohup':
+   (env) $ nohup python3 collector.py > log_gempa.txt 2>&1 &
+
+2. Cek apakah script sudah jalan di background:
+   $ ps aux | grep collector.py
+
+------------------------------------------------------------------------
+CARA MONITORING & STOP
+------------------------------------------------------------------------
+1. Melihat log (aktivitas) robot secara real-time:
+   $ tail -f log_gempa.txt
+
+2. Mematikan robot (jika mau update script):
+   a. Cek PID (Process ID):
+      $ ps aux | grep collector.py
+      (Misal muncul angka 12345 di kolom kedua)
+   
+   b. Matikan proses:
+      $ kill 12345
+
+------------------------------------------------------------------------
+CARA UPDATE SCRIPT (JIKA ADA PERUBAHAN DARI LAPTOP)
+------------------------------------------------------------------------
+1. Matikan dulu robotnya (lihat cara stop di atas).
+2. Masuk folder:
+   $ cd ~/Otomasi-Datin-UPT-StageofAsel
+3. Tarik data baru dari GitHub:
+   $ git pull origin main
+4. Nyalakan lagi robotnya (Langkah 6).
+
+========================================================================
+SEMOGA BERHASIL! JAGA KESEHATAN SERVER SEISCOMP!
+========================================================================
