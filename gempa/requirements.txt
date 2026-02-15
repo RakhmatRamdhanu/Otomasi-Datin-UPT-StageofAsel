@@ -1,0 +1,5 @@
+python-socketio[client]
+websocket-client
+pandas
+openpyxl
+requests

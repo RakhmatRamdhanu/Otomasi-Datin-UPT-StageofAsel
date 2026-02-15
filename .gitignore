@@ -1,0 +1,16 @@
+# Abaikan folder cache python
+__pycache__/
+*.pyc
+
+# Abaikan Database Lokal (Karena ukurannya bisa gede)
+*.db
+*.sqlite3
+
+# Abaikan Folder Output Laporan (Hasil generate Excel/PDF jangan diupload)
+laporan_output/
+output/
+*.xlsx
+*.pdf
+
+# Abaikan file env
+.env
